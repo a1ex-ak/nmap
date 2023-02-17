@@ -1,0 +1,88 @@
+rm -f <имя файла/папки>
+
+cd /usr/share/nmap/scripts/
+
+sudo wget https://raw.githubusercontent.com/vulnersCom/nmap-vulners/master/vulners.nse
+
+
+nmap -Pn -sV --script vulners.nse sverhnovaya.ru -oA /home/cybersec/Documents/svrhnovaya_scan_report --stylesheet https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl
+
+nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 -sV --script vulners.nse 192.168.171.58 -oA /home/ciso/Документы/ОТЧЕТЫ/oak-1cdev-app_192.168.171.58_scan_report --stylesheet https://raw.githubusercontent.com/honze-net/nmap-bootstrap-xsl/master/nmap-bootstrap.xsl
+
+#############################################
+# Ключи сканирования
+Intense scan
+nmap -T4 -A -v <Цель>
+
+Intense scan plus UDP
+nmap -sS -sU -T4 -A -v
+
+Intense scan, all TCP ports
+nmap -p 1-65535 -T4 -A -v
+
+Intense scan, no ping
+nmap -T4 -A -v -Pn
+
+Ping scan
+nmap -sn
+
+Quick scan
+nmap -T4 -F
+
+Quick scan plus
+nmap -sV -T4 -O -F --version-light
+
+Quick traceroute
+nmap -sn --traceroute
+
+Slow comprehensive scan
+nmap -sS -sU -T4 -A -v -PE -PP -PS80,443 -PA3389 -PU40125 -PY -g 53 --script "default or (discovery and safe)"
+
+MSSQL Info
+nmap -sC -sV -p 1433 <host>
+nmap -sC -sV <host>
+
+Агресивное сканирование
+nmap -A <host>
+
+Включить скрипт определения ОС и версии ПО (IPv4)
+nmap -A <host>
+nmap -v -A <host>
+nmap -A -iL /tmp/scanlist.txt
+
+Узнать, защищён ли хост/сеть файерволом
+nmap -sA <host>
+nmap -sA suip.biz
+
+Сканирование хоста при защите файерволом
+nmap -Pn <host>
+nmap -Pn suip.biz
+
+Сканирование файервола на проблемы безопасности
+
+Следующие типы сканирования используют тонкую лазейку в TCP и хороши для тестирования безопасности распространенных атак:
+Сканирование TCP Null чтобы одурачить файервол на генерацию ответа
+Не устанавливает какие-либо биты (TCP флаг заголовка 0)
+	
+nmap -sN <host>
+
+Сканирование TCP Fin для проверки файервола
+Устанавливает просто TCP FIN бит
+	
+nmap -sF <host>
+
+Сканирование TCP Xmas для проверки файервола
+Устанавливает флаги FIN, PSH и URG, разукрашивая пакеты как новогоднюю ёлку
+	
+nmap -sX <host>
+
+Сканирование файервола фрагментами пакетов
+Опция -f приводит к тому, что затребованное сканирование (включая пинг сканирование) использует фрагменты IP пакетов. Идея разделить TCP заголовок на несколько пакетов заключается в том, чтобы усложнить фильтрам, системам обнаружения вторжений и другим неприятностям выявить, чем вы занимаетесь.
+	
+nmap -f <host>
+nmap -f fw2.nixcraft.net.in
+nmap -f 15 fw2.nixcraft.net.in
+
+Установите свой собственный размер смещения опцией --mtu
+	
+nmap --mtu 32 <host>
